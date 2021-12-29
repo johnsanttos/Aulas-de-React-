@@ -35,7 +35,7 @@ export default class aulasReact extends Component {
     this.setState({
       nome: this.state.input
     });
-    alert('Salvo com sucesso')
+    alert('Salvo com sucesso !!!')
     Keyboard.dismiss();
   }
 
