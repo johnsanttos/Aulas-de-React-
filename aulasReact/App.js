@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import Entrar from './src/components/Entrar'
+import { View, Text, TextInput, TouchableOpacity, Keyboard, Button, Modal } from 'react-native';
 import css from './src/estilos/estilos'
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -8,58 +9,32 @@ export default class aulasReact extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: '',
-      nome: '',
+      modalVisible: false
     }
-    this.gravaNome = this.gravaNome.bind(this)
+    this.entrar = this.entrar.bind(this)
+    this.sair = this.sair.bind(this)
   }
 
-// Quero que busque no banco o nome se deu certo a value valera nome
-  async componentDidMount() {
-    await AsyncStorage.getItem('nome').then((value) => {
-      this.setState({ nome: value });
-    })
-  }
-  //ComponentDidMount - quando o componente é montado em tela igual useEfect
-  //ComponentDidUpdate - toda vez que um componente é atualizado fazer algo
-
-  async componentDidUpdate(_, prevState) {
-    const nome = this.state.nome; // desconstruido
-    if (prevState !== nome) {
-      await AsyncStorage.setItem('nome', nome)
-    }
+  entrar() {
+    this.setState({ modalVisible: true })
   }
 
-
-  gravaNome() {
-    this.setState({
-      nome: this.state.input
-    });
-    alert('Salvo com sucesso')
-    Keyboard.dismiss();
+  sair(visible) {
+    this.setState({ modalVisible: visible })
   }
 
   render() {
     return (
       <View style={css.container}>
 
+        <Button title="Entrar" onPress={this.entrar} />
 
-        <View style={css.viewInput}>
-          <TextInput
-            style={css.input}
-            value={this.state.input}
-            onChangeText={(text) => this.setState({ input: text })}
-            underlineColorAndroid='{transparent'
-          />
+        <Modal transparent={true} animationType='slide' visible={this.state.modalVisible}>
+          <View style={{ margin: 15, flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Entrar fechar={() => this.sair(false)} />
+          </View>
 
-          <TouchableOpacity onPress={this.gravaNome}>
-            <Text style={css.botao}> + </Text>
-
-          </TouchableOpacity>
-        </View>
-
-        <Text style={css.nome}>{this.state.nome} </Text>
-
+        </Modal>
 
       </View>
     );

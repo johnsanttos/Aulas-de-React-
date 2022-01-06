@@ -6,7 +6,10 @@ container: {
     flex:1,
     backgroundColor: '#f5f5f5',
     marginTop: 20,
-    alignItems: 'center'
+    alignItems: 'center',
+    textAlign: 'center',
+    justifyContent: 'center'
+
     
 },
 
